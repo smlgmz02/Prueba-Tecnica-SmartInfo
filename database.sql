@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS Contactos(
     nombre_completo VARCHAR(255) NOT NULL,
     correo_electronico VARCHAR(150) NOT NULL,
     telefono_contacto VARCHAR(20) NOT NULL -- Tipo varchar porque sigue siendo una cadena de caracteres con los que no se puede operar.
-)
+);
 
 -- INSERCIONES (DATOS DE PRUEBA) --
 
