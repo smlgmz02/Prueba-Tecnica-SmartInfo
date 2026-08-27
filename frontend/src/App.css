@@ -1,0 +1,80 @@
+/* Configuraciones globales*/
+:root {
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+}
+
+.app-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.caja-formulario {
+  grid-column: span 2 / span 2;
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 30px;
+}
+.caja-lista {
+  grid-column: span 2 / span 2;
+  grid-column-start: 4; 
+  border: 3px solid #000;
+  border-radius: 12px;
+  padding: 30px;
+}
+/* ----------------------------- */
+
+.grupo-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.grupo-input input {
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 20px;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+.btn-registrar {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #000;
+  border-radius: 20px;
+  background: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-registrar:hover {
+  background: #f0f0f0;
+}
+
+/* Estilos internos de la Lista (se mantienen igual) */
+.subtitulo {
+  text-align: center;
+  margin-top: 0;
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
+.item-contacto {
+  border-bottom: 2px solid #000;
+  padding: 15px 0;
+}
+
+.item-contacto:last-child {
+  border-bottom: none;
+}

@@ -1,14 +1,14 @@
 <?php
 //  cabeceras que otorgaran permisos al navegador para procesar los datos
 header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS"); // verbos HTTP que aceptara el ENDPOINT
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, Origin, Accept");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS"); // verbos HTTP que aceptara el ENDPOINT
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // se verifica que el servidor sea seguro
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
-    exit();
+    exit(0);
 }
 // importamos el archivo de conexion a la BD junto al modelo usando rutas absolutas seguras
 require_once __DIR__ . '/../config/Conexion.php';
