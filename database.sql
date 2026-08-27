@@ -12,5 +12,6 @@ CREATE TABLE IF NOT EXISTS Contactos(
 
 -- INSERCIONES (DATOS DE PRUEBA) --
 
-INSERT INTO Contactos VALUES ("Samuel Gomez", "samuelgomez@gmail.com", "3152297732"),
-INSERT INTO Contactos VALUES ("Lucia Rodriguez", "luciarodriguez@gmail.com", "3205257732"),
+INSERT INTO Contactos (nombre_completo, correo_electronico, telefono_contacto) VALUES
+    ('Samuel Gomez', 'samuelgomez@gmail.com', '3152297732'),
+    ('Lucia Rodriguez', 'luciarodriguez@gmail.com', '3205257732');
