@@ -9,7 +9,7 @@ header("Content-Type: application/json; charset=UTF-8");
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit(0);
-}
+} 
 // importamos el archivo de conexion a la BD junto al modelo usando rutas absolutas seguras
 require_once __DIR__ . '/../config/Conexion.php';
 require_once __DIR__ . '/../models/M_Contacto.php';
@@ -46,24 +46,41 @@ switch ($metodo) {
         break;
     case 'POST':
         $data = json_decode(file_get_contents("php://input")); // lectura del body de la peticion HTTP 
+        $nombre = trim($data->nombre_completo ?? '');
+        $correo = trim($data->correo_electronico ?? '');
+        $telefono = trim($data->telefono_contacto ?? '');
 
-        if (!empty($data->nombre_completo) && !empty($data->correo_electronico) && !empty($data->telefono_contacto)) {
-            $contacto->nombre_completo = $data->nombre_completo;
-            $contacto->correo_electronico = $data->correo_electronico;
-            $contacto->telefono_contacto = $data->telefono_contacto;
-            // invocacion del metodo CREAR
-            if ($contacto->crear()) {
-                http_response_code(201);
-                echo json_encode(array("mensaje" => "Contacto creado con éxito."));
-            } else {
-                http_response_code(503);
-                echo json_encode(array("mensaje" => "No se pudo crear el contacto en el servidor."));
-            }
-        } else {
+        if (empty($nombre) || empty($correo) || empty($telefono)) {
             http_response_code(400);
             echo json_encode(array("mensaje" => "Datos incompletos. Se requieren todos los campos."));
+            exit;
         }
-        break;
+
+        if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode(array("mensaje" => "El formato del correo es inválido."));
+            exit;
+        }
+
+        if (!preg_match('/^[0-9]{7,10}$/', $telefono)) {
+            http_response_code(400);
+            echo json_encode(array("mensaje" => "El teléfono debe contener entre 7 y 10 números."));
+            exit;
+        }
+
+        // si pasa las validaciones asignamos e invocamos el metodo CREAR
+        $contacto->nombre_completo = $nombre;
+        $contacto->correo_electronico = $correo;
+        $contacto->telefono_contacto = $telefono;
+        
+        if ($contacto->crear()) {
+            http_response_code(201);
+            echo json_encode(array("mensaje" => "Contacto creado con éxito."));
+        } else {
+            http_response_code(503);
+            echo json_encode(array("mensaje" => "No se pudo crear el contacto en el servidor."));
+        }
+        break;   
     case 'DELETE':
         $data = json_decode(file_get_contents("php://input"));
         $id = isset($_GET['id']) ? $_GET['id'] : (isset($data->id_contacto) ? $data->id_contacto : null); // se eliminará el registro segun su ID

@@ -12,29 +12,37 @@ function FormularioContacto({ onContactoRegistrado }) {
     // Expresiones Regulares para validacion de formato (correo y numero telefonico)
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const telefonoRegex = /^[0-9]{7,10}$/;
-
+    // mismas validaciones del backend aplicadas al front
     if (!nombre || !correo || !telefono) {
       alert("Por favor, llena todos los campos.");
       return;
     }
-    if (!formData.nombre_completo.trim()) {
+    if (!nombre.trim()) {
       alert("El nombre completo es obligatorio.");
       return;
     }
-    if (!emailRegex.test(formData.correo_electronico)) {
+    if (!emailRegex.test(correo)) {
       alert("Por favor, ingresa un correo electrónico válido (ej. usuario@dominio.com).");
       return;
     }
-    if (!telefonoRegex.test(formData.telefono_contacto)) {
+    if (!telefonoRegex.test(telefono)) {
       alert("El teléfono debe contener solo números (entre 7 y 10 dígitos).");
       return;
     }
     // tras pasar correctamente las validaciones se envian los datos al backend
    try {
-      const respuesta = await registrarContactoService(formData);
+    const datosContacto = {
+        nombre_completo: nombre,
+        correo_electronico: correo,
+        telefono_contacto: telefono
+      };
+      const respuesta = await registrarContactoService(datosContacto);
       if (respuesta.ok) {
         alert("Contacto registrado exitosamente.");
-        setFormData({ nombre_completo: '', correo_electronico: '', telefono_contacto: '' });
+        // se limpian los inputs por separado
+        setNombre('');
+        setCorreo('');
+        setTelefono('');
         onContactoRegistrado(); // sincroniza la lista
       } else {
         const errorData = await respuesta.json();
